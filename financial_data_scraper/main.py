@@ -1,5 +1,11 @@
+from utils.config import load_config
+from pipeline.extractors.currencies import Currencies
+
 def main():
-    print("Hello from financial-data-scrapper!")
+    config = load_config()
+
+    cur = Currencies(config)
+    cur.extract()
 
 
 if __name__ == "__main__":
