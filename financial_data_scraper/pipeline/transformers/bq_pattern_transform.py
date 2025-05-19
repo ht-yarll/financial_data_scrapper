@@ -12,13 +12,22 @@ class PatternBQ(TransformStrategy):
     
     def transform(self, df: pl.DataFrame) -> pd.DataFrame:
         try:
-            df = df.map_rows(self._sanitize)
+            df_sanitizing_columns = df.with_columns([
+                pl.col(col)
+                .map_elements(self._sanitize, return_dtype=str) 
+                for col in df.columns
+            ])
+
             dates_aliases = ['date', 'data', 'datetime']
-            df = df.with_columns(
-                pl.col(col).map_elements(self._parse_date) for col in df.columns if col in dates_aliases 
+            df_date_parsed = df_sanitizing_columns.with_columns(
+                pl.col(col)
+                .map_elements(self._parse_date, return_dtype = str)
+                for col in df.columns if col in dates_aliases 
             )
-            df_ready_to_load = df.to_pandas()
+            df_final = df_date_parsed.to_pandas()
+            df_ready_to_load = df_final.infer_objects()
             print(f'✅ Df ready to load')
+            
             return df_ready_to_load
         
         except Exception as e:
@@ -50,4 +59,4 @@ class PatternBQ(TransformStrategy):
                 dt = datetime.strptime(date, "%d/%m/%Y")
             except ValueError:
                 return date
-        return dt.strftime("%y-%m")
+        return dt.strftime("%y-%m-%d")

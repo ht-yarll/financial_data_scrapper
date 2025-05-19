@@ -1,4 +1,5 @@
 import time
+from typing import List, Tuple
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -13,7 +14,7 @@ class SeleniumHelper():
         self.url = url
         self.driver = self._init_session()
 
-    def get_monthly_elements(self) -> list:
+    def get_monthly_elements(self) -> List[Tuple[str, str, str]]:
         try:
             self.driver.get(self.url)
 
