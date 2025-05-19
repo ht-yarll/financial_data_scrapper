@@ -9,20 +9,19 @@ from selenium.webdriver.common.by import By
 
 
 class SeleniumHelper():
-    def __init__(self, config):
-        self.url = config['urls']['currencies']
-        self.config = config
+    def __init__(self, url):
+        self.url = url
         self.driver = self._init_session()
 
     def get_monthly_elements(self) -> list:
         try:
             self.driver.get(self.url)
 
+            self._click_on_period('Mensal')
+
             rows = WebDriverWait(self.driver, 10).until(
                 ec.presence_of_all_elements_located((By.XPATH, '//table//tbody/tr'))
             )
-
-            self._click_on_period('Mensal')
 
             elements_list = []
             for row in rows:

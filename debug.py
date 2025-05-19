@@ -1,3 +1,6 @@
+from datetime import date
+from time import sleep
+
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
@@ -19,7 +22,7 @@ class SeleniumHelper():
         except Exception as e:
             print('⭕ Failed to connect')
 
-    def get_monthly_elements(self) -> list:
+    def click_on_period(self):
         try:
             driver = self._init_session()
             driver.get(self.url)
@@ -38,12 +41,30 @@ class SeleniumHelper():
                     break
                 i += 1
                     
-
         except Exception as e:
             print(f'Failed to click: {e}')
             return []
-        #<span class="historical-data-v2_menu-row-text__ZgtVH">Mensal</span>
+        
+
+    def select_date(self):
+        driver = self._init_session()
+        driver.get(self.url)
+
+        try:
+            calendar_dropdown = driver.find_element(By.XPATH, "//div[contains(@class, 'flex flex-1 flex-col')]")
+            sleep(5)
+            calendar_dropdown.click()
+            print(f'Click! 🐁')
+
+            calendar_show = calendar_dropdown.find_elements(By.XPATH, f"//input[(@type='date' and @max!='{date.today()}')]")
+            # calendar_show.clear()
+            # calendar_show.send_keys('2020-07-01')
+            # print(f'Date Changed 🐁')
+            
+        except Exception as e:
+            print(f'Failed to click: {e}')
+            return None
 
 s = SeleniumHelper('https://br.investing.com/currencies/usd-cny-historical-data')
 
-s.get_monthly_elements()
+s.select_date()
