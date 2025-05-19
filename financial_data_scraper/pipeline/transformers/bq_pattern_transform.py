@@ -1,5 +1,6 @@
 import unicodedata
 import re
+from datetime import datetime
 from financial_data_scraper.interfaces.transformer_strat_interface import TransformStrategy
 import polars as pl
 import pandas as pd
@@ -11,13 +12,18 @@ class PatternBQ(TransformStrategy):
     
     def transform(self, df: pl.DataFrame) -> pd.DataFrame:
         try:
-            df = self.df.map_rows(self._sanitize)
+            df = df.map_rows(self._sanitize)
+            dates_aliases = ['date', 'data', 'datetime']
+            df = df.with_columns(
+                pl.col(col).map_elements(self._parse_date) for col in df.columns if col in dates_aliases 
+            )
             df_ready_to_load = df.to_pandas()
             print(f'✅ Df ready to load')
             return df_ready_to_load
         
         except Exception as e:
             print(f'❌ Failed to transform df: {e}')
+
 
     def _sanitize(self, text):
         if not isinstance(text, str):
@@ -33,3 +39,15 @@ class PatternBQ(TransformStrategy):
         text = re.sub(r'\s+', ' ', text).strip()
 
         return text
+    
+    def _parse_date(self, date):
+        if not isinstance(date, str):
+            return date
+        try:
+            dt = datetime.strptime(date, "%Y-%m-%d")
+        except ValueError:
+            try:
+                dt = datetime.strptime(date, "%d/%m/%Y")
+            except ValueError:
+                return date
+        return dt.strftime("%y-%m")

@@ -13,6 +13,7 @@ def main():
 
     bloom = BloombergCommodity(config)
     bloom_treated = treat.transform(bloom.extract())
+    print(bloom_treated.head())
 
     chin_pmi = ChineseCashServices(config)
     pmi_to_be_treated = treat.transform(chin_pmi.extract())
