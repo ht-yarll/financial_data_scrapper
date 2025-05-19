@@ -2,5 +2,3 @@ urls:
   commodity: https://br.investing.com/indices/bloomberg-commodity-chart
   currencies: https://br.investing.com/currencies/usd-cny-historical-data
   chinese_cash_services: https://br.investing.com/economic-calendar/chinese-caixin-services-pmi-596
-
-period: Mensal # Mensal -> Monthly | Diário -> Daily | Semanal -> Weekly

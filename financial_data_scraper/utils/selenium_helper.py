@@ -63,7 +63,7 @@ class SeleniumHelper():
             dropdowbox.click()
 
             selection = self.driver.find_elements(By.CLASS_NAME, 'historical-data-v2_menu-row-text__ZgtVH')
-            period = 'Mensal'
+            period = 'Mensal' # Mensal -> Monthly | Diário -> Daily | Semanal -> Weekly
             for option in selection:
                 if option.text == period:
                     option.click()
