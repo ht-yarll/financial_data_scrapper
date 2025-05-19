@@ -7,6 +7,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
 
+import requests
+import polars as pl
+
 
 class SeleniumHelper():
     def __init__(self, url):
@@ -65,6 +68,23 @@ class SeleniumHelper():
             print(f'Failed to click: {e}')
             return None
 
-s = SeleniumHelper('https://br.investing.com/currencies/usd-cny-historical-data')
+# s = SeleniumHelper('https://br.investing.com/currencies/usd-cny-historical-data')
 
-s.select_date()
+# s.select_date()
+
+   
+
+def extract(url) -> pl.Dataframe:
+    res = requests.get(url)
+    results = res.json()
+    values = results['candles']
+    df = pl.DataFrame(values, schema=['timestamp', 'value'], strict=False)
+    df = df.with_columns([
+        (pl.col('timestamp').cast(pl.Datetime).dt.cast_time_unit('ms')).alias('date')
+    ]).select(['date', 'value'])
+    print(df.head())
+    return df
+
+
+url =' https://sbcharts.investing.com/charts_xml/cce9bf7363d8e7d1609664b9b9e2d468_max.json'
+extract(url = url)

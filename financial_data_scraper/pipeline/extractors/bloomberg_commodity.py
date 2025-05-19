@@ -23,4 +23,3 @@ class BloombergCommodity(ExtractStrategy):
                 }
                 writer.writerow(bloomberg_dict)
                 print(f'Written row {i}')
-                i += 1
