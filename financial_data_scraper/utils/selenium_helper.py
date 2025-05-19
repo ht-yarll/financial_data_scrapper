@@ -67,7 +67,7 @@ class SeleniumHelper():
                 if option.text == period:
                     option.click()
                     time.sleep(1.5)
-                    print(f'📅 Monthly results')
+                    print(f'📅 Monthly results fetched')
                     break
                 continue
 
