@@ -1,4 +1,12 @@
+project_id: estud-460321
+
+env: C:\Users\htorr\Documents\vscode\meus_projetos\financial_data_scrapper\.env
+
 urls:
   commodity: https://br.investing.com/indices/bloomberg-commodity-historical-data
   usd_currency: https://br.investing.com/currencies/usd-cny-historical-data
   chinese_pmi: https://sbcharts.investing.com/charts_xml/cce9bf7363d8e7d1609664b9b9e2d468_max.json
+
+services:
+  bigquery:
+    dataset: financial_data_scrapper
