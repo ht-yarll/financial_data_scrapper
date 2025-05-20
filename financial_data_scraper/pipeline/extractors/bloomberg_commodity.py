@@ -19,10 +19,10 @@ class BloombergCommodity(ExtractStrategy):
                     "variation": e[2]
                 }
                 values.append(bloomberg_dict)
-            schema = ['date', 'value', 'variation']
+            schema = {'date':pl.Utf8, 'value':pl.Utf8, 'variation':pl.Utf8}   
             df = pl.DataFrame(values, schema = schema)
             print(f'🐻‍❄️ Dataframe Bloomberg_Commodity generated with schema {schema}')
             return df
         
         except Exception as e:
-            print(f'Failed to create df: {e}')
+            print(f'Failed to create df Bloomberg: {e}')

@@ -22,10 +22,10 @@ class USDCurrency(ExtractStrategy):
                 }
                 values.append(dolar_dict)
 
-            schema=['date', 'value', 'variation']    
+            schema={'date':pl.Utf8, 'value':pl.Utf8, 'variation':pl.Utf8}    
             df = pl.DataFrame(values, schema = schema)
             print(f'🐻‍❄️ Dataframe USD_Currency generated with schema {schema}')
             return df
         
         except Exception as e:
-            print(f'Failed to create df: {e}')
+            print(f'Failed to create df USD: {e}')
