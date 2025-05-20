@@ -1,6 +1,6 @@
 project_id: estud-460321
 
-env: C:\Users\htorr\Documents\vscode\meus_projetos\financial_data_scrapper\.env
+env: C:/Users/htorr/Documents/vscode/meus_projetos/financial_data_scrapper/.env
 
 urls:
   commodity: https://br.investing.com/indices/bloomberg-commodity-historical-data

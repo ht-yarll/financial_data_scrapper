@@ -1,34 +1,47 @@
 import unicodedata
 import re
 from datetime import datetime
+from decimal import Decimal, InvalidOperation
 from financial_data_scraper.interfaces.transformer_strat_interface import TransformStrategy
 import polars as pl
 import pandas as pd
 
 
-class PatternBQ(TransformStrategy):
+class TransformDF(TransformStrategy):
     def __init__(self):
         ...
     
     def transform(self, df: pl.DataFrame) -> pd.DataFrame:
         try:
-            df_sanitizing_columns = df.with_columns([
-                pl.col(col)
-                .map_elements(self._sanitize, return_dtype=str) 
-                for col in df.columns
-            ])
-
-            dates_aliases = ['date', 'data', 'datetime']
-            df_date_parsed = df_sanitizing_columns.with_columns(
-                pl.col(col)
-                .map_elements(self._parse_date, return_dtype = str)
-                for col in df.columns if col in dates_aliases 
+            df_date_parsed = df.with_columns(
+                pl.col('date')
+                .map_elements(self._parse_date, return_dtype = pl.Date)
+                if 'date' in df.columns else df
             )
-            df_final = df_date_parsed.to_pandas()
-            df_ready_to_load = df_final.infer_objects()
+
+            df_values_parsed = df_date_parsed.with_columns(
+                pl.col('value')
+                .map_elements(self._parse_decimal, return_dtype = pl.Float64)
+                if 'value' in df_date_parsed.columns else df_date_parsed
+            )
+
+            df_variation_parsed = df_values_parsed.with_columns(
+                pl.col('variation')
+                .map_elements(self._parse_variation, return_dtype = pl.Float64)
+                if 'variation' in df_values_parsed.columns else df_values_parsed
+            )
+
+            df_sanitizing_columns = df_variation_parsed.with_columns(
+                pl.col(column)
+                .map_elements(self._sanitize, return_dtype=str) 
+                for column in df_variation_parsed.columns
+                if df_variation_parsed.schema[column] == pl.Utf8
+            )
+            
+            df_final = df_sanitizing_columns.to_pandas()
             print(f'✅ Df ready to load')
             
-            return df_ready_to_load
+            return df_final
         
         except Exception as e:
             print(f'❌ Failed to transform df: {e}')
@@ -49,14 +62,38 @@ class PatternBQ(TransformStrategy):
 
         return text
     
+    def _parse_decimal(self, value):
+        if not isinstance(value, str):
+            return value
+        
+        value = re.sub(r'[^\d,.\-]', '', value)
+        if value.count(',') == 1 and value.count('.') == 0:
+            value = value.replace(',', '.')
+        value = re.sub(r'(?<=\d)[,.](?=\d{3}\b)', '', value)
+        try:
+            return float(value)
+        except (ValueError, InvalidOperation):
+            return None
+        
+    def _parse_variation(self, value):
+        if not isinstance(value, str):
+            return value
+        
+        value = value.strip().replace('%', '')
+        try:
+            return float(value)
+        except ValueError:
+            return None
+    
     def _parse_date(self, date):
         if not isinstance(date, str):
             return date
-        try:
-            dt = datetime.strptime(date, "%Y-%m-%d")
-        except ValueError:
+        
+        for fmt in ('%Y-%m-%d', '%d/%m/%Y', '%Y.%m.%d', '%d.%m.%Y', '%Y-%m-%d %H:%M:%S:%f', '%Y-%m-%d %H:%M:%S.%f'):
             try:
-                dt = datetime.strptime(date, "%d/%m/%Y")
+                result = datetime.strptime(date, fmt).date()
+                print("Convertido:", date, "->", result)
+                return result
             except ValueError:
-                return date
-        return dt.strftime("%y-%m-%d")
+                continue
+        return None
