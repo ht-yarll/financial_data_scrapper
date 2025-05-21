@@ -21,7 +21,7 @@ class TGBloombergCommodity(TaskGroup):
                 self.config,
                 extractor=BloombergCommodityExtract,
                 transformer=TransformDF,
-                loader=BatchDataOnBQ
+                loader=BatchDataOnBQ,
                 table_name='bloomberg_commoddity_history'
             )
             
