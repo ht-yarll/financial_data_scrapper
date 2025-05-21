@@ -3,7 +3,7 @@ import requests
 import polars as pl
 
 
-class ChineseCashServices(ExtractStrategy):
+class ChineseCashServicesExtract(ExtractStrategy):
     def __init__(self, config):
         self.config = config
         self.url = config['urls']['chinese_pmi']

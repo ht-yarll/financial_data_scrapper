@@ -2,7 +2,7 @@ import pytest
 from dags.financial_data_scraper.utils.config import load_config
 from dags.financial_data_scraper.pipeline.extractors.bloomberg_commodity import BloombergCommodity
 from dags.financial_data_scraper.pipeline.extractors.chinese_cash_services import ChineseCashServices
-from dags.financial_data_scraper.pipeline.extractors.usd_currency import USDCurrency
+from dags.financial_data_scraper.pipeline.extractors.usd_currency import USDCurrencyExtract
 
 import polars as pl
 
@@ -24,7 +24,7 @@ def test_bloomberg_returns_valid_dataframe():
 
 
 def test_usd_currency_returns_valid_dataframe():
-    usd = USDCurrency(config)
+    usd = USDCurrencyExtract(config)
     df = usd.extract()
     df = df.head()
 

@@ -1,11 +1,12 @@
-from financial_data_scraper.pipeline.extractors.bloomberg_commodity import BloombergCommodity
+from financial_data_scraper.context.etl import extract_transform_load
+from financial_data_scraper.pipeline.extractors.bloomberg_commodity import BloombergCommodityExtract
 from financial_data_scraper.pipeline.transformers.bq_pattern_transform import TransformDF
 from financial_data_scraper.pipeline.loaders.loading_to_bq import BatchDataOnBQ
 
 from airflow.decorators import task
 from airflow.utils.task_group import TaskGroup
 
-class TG_Bloomberg_Commodity(TaskGroup):
+class TGBloombergCommodity(TaskGroup):
      """
      Extract, Transform and Load tb "bloomberg_commoddity_history" on bq
      """
@@ -15,12 +16,14 @@ class TG_Bloomberg_Commodity(TaskGroup):
         self.config = config
 
         @task(task_group = self)
-        def extract_transform_load():
-            bloom = BloombergCommodity(self.config)
-            treat = TransformDF()
-            batch = BatchDataOnBQ(self.config)
-
-            df = treat.transform(bloom.extract())
-            batch.load(df, 'bloomberg_commoddity_history')
-
-        extract_transform_load
+        def bloomberg_commodity_etl():
+            extract_transform_load(
+                self.config,
+                extractor=BloombergCommodityExtract,
+                transformer=TransformDF,
+                loader=BatchDataOnBQ
+                table_name='bloomberg_commoddity_history'
+            )
+            
+        bloomberg_commodity_etl
+            

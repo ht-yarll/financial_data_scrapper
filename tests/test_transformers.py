@@ -2,7 +2,7 @@ import pytest
 
 from dags.financial_data_scraper.pipeline.transformers.bq_pattern_transform import TransformDF
 from dags.financial_data_scraper.pipeline.extractors.bloomberg_commodity import BloombergCommodity
-from dags.financial_data_scraper.pipeline.extractors.usd_currency import USDCurrency
+from dags.financial_data_scraper.pipeline.extractors.usd_currency import USDCurrencyExtract
 from dags.financial_data_scraper.pipeline.extractors.chinese_cash_services import ChineseCashServices
 
 import polars as pl
@@ -45,7 +45,7 @@ def test_bloomberg_transformation(transformer, config):
     assert pd.api.types.is_float_dtype(df_transformed['variation'])
 
 def test_usd_currency_transformation(transformer, config):
-    extractor = USDCurrency(config)
+    extractor = USDCurrencyExtract(config)
     df = extractor.extract()
     df_transformed = transformer.transform(df)
     assert isinstance(df_transformed, pd.DataFrame)
