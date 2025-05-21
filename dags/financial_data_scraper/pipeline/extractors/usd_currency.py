@@ -5,7 +5,7 @@ from financial_data_scraper.interfaces.extractor_strat_interface import ExtractS
 
 import polars as pl
 
-class USDCurrency(ExtractStrategy):
+class USDCurrencyExtract(ExtractStrategy):
     def __init__(self, config):
         self.config = config
     
