@@ -10,7 +10,7 @@ class TGBloombergCommodity(TaskGroup):
      """
      Extract, Transform and Load tb "bloomberg_commoddity_history" on bq
      """
-     def __init__(self, config, group_id = 'ETL_job', tooltip = 'ETL Job', **kwargs):
+     def __init__(self, config, group_id = 'ETL_job_for_bloom', tooltip = 'ETL Job', **kwargs):
         super().__init__(group_id = group_id, tooltip = tooltip, **kwargs)
 
         self.config = config
@@ -25,5 +25,5 @@ class TGBloombergCommodity(TaskGroup):
                 table_name='bloomberg_commoddity_history'
             )
             
-        bloomberg_commodity_etl
+        bloomberg_commodity_etl()
             

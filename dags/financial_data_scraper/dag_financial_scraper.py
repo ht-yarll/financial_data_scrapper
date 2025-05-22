@@ -20,7 +20,7 @@ config = load_config()
 @dag(
     "financial_data_scraper",
     default_args=default_args,
-    schedule_interval='0 22 * * 1-5',
+    #schedule_interval='0 22 * * 1-5',
     catchup=False,
     tags=["MARKET"],
 )
@@ -38,4 +38,4 @@ def financial_data_scraper():
 
 # Execution -------------------------------------------------------------------------
 
-financial_data_scraper(config)
+financial_data_scraper()

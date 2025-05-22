@@ -10,13 +10,13 @@ class TGCHinesePMI(TaskGroup):
      """
      Extract, Transform and Load tb "chinese_pmi_history" on bq
      """
-     def __init__(self, config, group_id = 'ETL_job', tooltip = 'ETL Job', **kwargs):
+     def __init__(self, config, group_id = 'ETL_job_for_chinese_pmi', tooltip = 'ETL Job', **kwargs):
         super().__init__(group_id = group_id, tooltip = tooltip, **kwargs)
 
         self.config = config
 
         @task(task_group = self)
-        def bloomberg_commodity_etl():
+        def chinese_pmi_etl():
             extract_transform_load(
                 self.config,
                 extractor = ChineseCashServicesExtract,
@@ -25,4 +25,4 @@ class TGCHinesePMI(TaskGroup):
                 table_name = 'chinese_pmi_history'
             )
             
-        bloomberg_commodity_etl
+        chinese_pmi_etl()

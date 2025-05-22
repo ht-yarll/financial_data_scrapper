@@ -10,7 +10,7 @@ class TGUSDCurrency(TaskGroup):
      """
      Extract, Transform and Load tb "usd_currency_history" on bq
      """
-     def __init__(self, config, group_id = 'ETL_job', tooltip = 'ETL Job', **kwargs):
+     def __init__(self, config, group_id = 'ETL_job_for_usd', tooltip = 'ETL Job', **kwargs):
         super().__init__(group_id = group_id, tooltip = tooltip, **kwargs)
 
         self.config = config
@@ -25,6 +25,6 @@ class TGUSDCurrency(TaskGroup):
                 table_name= 'usd_currency_history'
             )
 
-        usd_currency_etl
+        usd_currency_etl()
 
     
