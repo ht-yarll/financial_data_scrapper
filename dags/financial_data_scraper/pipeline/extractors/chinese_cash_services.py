@@ -19,6 +19,7 @@ class ChineseCashServicesExtract(ExtractStrategy):
             ]).select(['date', 'value']).cast({'date': pl.Utf8, 'value': pl.Utf8})
 
             print(f'🐻‍❄️ Dataframe Chinese PMI generated with schema: "date", "value"')
+
             return df
         
         except Exception as e:

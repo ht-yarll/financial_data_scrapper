@@ -25,6 +25,8 @@ class USDCurrencyExtract(ExtractStrategy):
             schema={'date':pl.Utf8, 'value':pl.Utf8, 'variation':pl.Utf8}    
             df = pl.DataFrame(values, schema = schema)
             print(f'🐻‍❄️ Dataframe USD_Currency generated with schema {schema}')
+            selenium.quit_session()
+            
             return df
         
         except Exception as e:
