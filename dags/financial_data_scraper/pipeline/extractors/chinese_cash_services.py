@@ -3,7 +3,7 @@ import requests
 import polars as pl
 
 
-class ChineseCashServices(ExtractStrategy):
+class ChineseCashServicesExtract(ExtractStrategy):
     def __init__(self, config):
         self.config = config
         self.url = config['urls']['chinese_pmi']
@@ -19,6 +19,7 @@ class ChineseCashServices(ExtractStrategy):
             ]).select(['date', 'value']).cast({'date': pl.Utf8, 'value': pl.Utf8})
 
             print(f'🐻‍❄️ Dataframe Chinese PMI generated with schema: "date", "value"')
+
             return df
         
         except Exception as e:

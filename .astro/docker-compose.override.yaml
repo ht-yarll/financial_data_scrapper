@@ -1,0 +1,8 @@
+services:
+  airflow-postgres:
+    ports:
+      - "5433:5432"   # Altere 5433 para a porta que quiser no host
+
+  webserver:
+    ports:
+      - "8081:8080"   # Altere 8081 para a porta que quiser acessar o Airflow no hostdf
