@@ -92,7 +92,6 @@ class TransformDF(TransformStrategy):
         for fmt in ('%Y-%m-%d', '%d/%m/%Y', '%Y.%m.%d', '%d.%m.%Y', '%Y-%m-%d %H:%M:%S:%f', '%Y-%m-%d %H:%M:%S.%f'):
             try:
                 result = datetime.strptime(date, fmt).date()
-                print("Convertido:", date, "->", result)
                 return result
             except ValueError:
                 continue

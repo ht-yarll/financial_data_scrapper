@@ -13,7 +13,7 @@ from selenium.webdriver.common.by import By
 
 
 
-class SeleniumHelper():
+class SeleniumHelper(RemoteConnectionV2):
     def __init__(self, url):
         self.url = url
         self.driver = self._init_session()
@@ -52,12 +52,12 @@ class SeleniumHelper():
     
     def _init_session(self):
         try:
-            selenium_url = os.environ.get('SELENIUM_URL')
-            selenium_con = RemoteConnectionV2(selenium_url, keep_alive = True)
+            selenium_con = RemoteConnectionV2(self.selenium_url, keep_alive = True)
             selenium_con.set_remote_connection_authentication_headers()
             driver = webdriver.Remote(selenium_con, DesiredCapabilities.CHROME)
             print('✅ Connected')
             return driver
+        
         except Exception as e:
             print('❌ Failed to connect')
 

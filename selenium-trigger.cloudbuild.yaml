@@ -1,0 +1,21 @@
+teps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'us.gcr.io/$PROJECT_ID/dockerfile.api:$SHORT_SHA', '-f', 'dockerfile.api', '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us.gcr.io/$PROJECT_ID/dockerfile.api:$SHORT_SHA']
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - financial-data-scrapper
+      - --image=us.gcr.io/$PROJECT_ID/dockerfile.api:$SHORT_SHA
+      - --region=us-central1
+      - --platform=managed
+      - --set-env-vars=SELENIUM_URL=https://selenium-standalone-chrome-212994923775.us-central1.run.app
+      - --memory=2G
+      - --allow-unauthenticated
+      - --service-account=learning-and-grinding@estud-460321.iam.gserviceaccount.com se necessário
+
+images:
+  - us.gcr.io/$PROJECT_ID/dockerfile.api:$SHORT_SHA
