@@ -1,0 +1,7 @@
+airflow:
+  connections:
+    - conn_id: scraper_cloud_run_extraction
+      conn_type: http
+      description: Cloud Run Financial Data Scrapper
+      host: https://financial-data-scrapper-212994923775.us-central1.run.app
+      extra: '{}'
