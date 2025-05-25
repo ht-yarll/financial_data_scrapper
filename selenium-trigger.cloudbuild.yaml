@@ -1,4 +1,4 @@
-teps:
+steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'us.gcr.io/$PROJECT_ID/dockerfile.api:$SHORT_SHA', '-f', 'dockerfile.api', '.']
   - name: 'gcr.io/cloud-builders/docker'
@@ -15,7 +15,7 @@ teps:
       - --set-env-vars=SELENIUM_URL=https://selenium-standalone-chrome-212994923775.us-central1.run.app
       - --memory=2G
       - --allow-unauthenticated
-      - --service-account=learning-and-grinding@estud-460321.iam.gserviceaccount.com se necessário
+      - --service-account=learning-and-grinding@estud-460321.iam.gserviceaccount.com
 
 images:
   - us.gcr.io/$PROJECT_ID/dockerfile.api:$SHORT_SHA
