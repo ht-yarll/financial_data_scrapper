@@ -15,7 +15,7 @@ from selenium.webdriver.common.by import By
 
 class SeleniumHelper(RemoteConnectionV2):
     def __init__(self, url):
-        self.url = url
+        self.url = url # site to scrape
         self.driver = self._init_session()
 
     def get_monthly_elements(self) -> List[Tuple[str, str, str]]:
@@ -52,14 +52,14 @@ class SeleniumHelper(RemoteConnectionV2):
     
     def _init_session(self):
         try:
-            selenium_con = RemoteConnectionV2(self.selenium_url, keep_alive = True)
+            selenium_con = RemoteConnectionV2(self.get_selenium_url(), keep_alive = True)
             selenium_con.set_remote_connection_authentication_headers()
             driver = webdriver.Remote(selenium_con, DesiredCapabilities.CHROME)
             print('✅ Connected')
             return driver
-        
+            
         except Exception as e:
-            print('❌ Failed to connect')
+            print(f'❌ Failed to connect: {e}')
 
         
     def _click_on_period(self, period: str):
