@@ -1,6 +1,9 @@
 # Financial Data Scrapper
 
 Este projeto automatiza a extração, transformação e carga (ETL) de dados financeiros de fontes web utilizando **Selenium remoto** (Cloud Run), **Apache Airflow** e APIs Python modernas. O objetivo é coletar, processar e armazenar dados financeiros de forma escalável e segura, integrando com Google Cloud Platform.
+---
+# Arquitetura
+![alt text](scripts/image.png)
 
 ---
 
