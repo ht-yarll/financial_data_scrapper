@@ -8,6 +8,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
 
@@ -54,7 +55,8 @@ class SeleniumHelper(RemoteConnectionV2):
         try:
             selenium_con = RemoteConnectionV2(self.get_selenium_url(), keep_alive = True)
             selenium_con.set_remote_connection_authentication_headers()
-            driver = webdriver.Remote(selenium_con, DesiredCapabilities.CHROME)
+            chrome_options = Options()
+            driver = webdriver.Remote(selenium_con, DesiredCapabilities.CHROME, options = chrome_options)
             print('✅ Connected')
             return driver
             
