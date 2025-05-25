@@ -1,0 +1,8 @@
+services:
+  airflow-postgres:
+    ports:
+      - "5433:5432" 
+
+  webserver:
+    ports:
+      - "8081:8080" 

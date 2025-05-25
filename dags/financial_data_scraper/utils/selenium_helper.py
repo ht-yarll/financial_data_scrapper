@@ -1,9 +1,13 @@
+import os
 import time
 from typing import List, Tuple
+
+from utils.selenium_remote_connection_v2 import RemoteConnectionV2
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
 
@@ -48,12 +52,10 @@ class SeleniumHelper():
     
     def _init_session(self):
         try:
-            service = Service()
-            options = webdriver.ChromeOptions()
-            options.add_argument("--headless")
-            options.add_argument("--no-sandbox")
-            options.add_argument("--disable-dev-shm-usage")
-            driver = webdriver.Chrome(service=service, options=options)
+            selenium_url = os.environ.get('SELENIUM_URL')
+            selenium_con = RemoteConnectionV2(selenium_url, keep_alive = True)
+            selenium_con.set_remote_connection_authentication_headers()
+            driver = webdriver.Remote(selenium_con, DesiredCapabilities.CHROME)
             print('✅ Connected')
             return driver
         except Exception as e:

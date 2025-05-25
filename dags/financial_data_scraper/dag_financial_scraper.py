@@ -8,6 +8,8 @@ from financial_data_scraper.taskgroups.tg_chinese_pmi import TGCHinesePMI
 
 from airflow.decorators import dag
 from airflow.models import Variable
+from airflow.providers.http.operators.http import HttpOperator
+
 
 default_args = {
     "owner": "Humphry Torres(ht-yarll)",
@@ -25,15 +27,23 @@ config = load_config()
     tags=["MARKET"],
 )
 
+
 def financial_data_scraper():
     """
     DAG to fetch financial data from invest.com
     """
+
+    invoke_scraper_cloud_run = HttpOperator(
+    task_id='invoke_function',
+    http_conn_id="scraper_cloud_run_extraction",
+    method='GET',
+    endpoint='/scraper'
+)
     usd_value = TGUSDCurrency(config)
     chinese_pmi = TGCHinesePMI(config)
     bloom_comm = TGBloombergCommodity(config) 
 
-    return [usd_value, chinese_pmi, bloom_comm]
+    return invoke_scraper_cloud_run >> [usd_value, chinese_pmi, bloom_comm]
 
 
 # Execution -------------------------------------------------------------------------
