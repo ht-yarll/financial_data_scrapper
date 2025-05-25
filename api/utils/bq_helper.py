@@ -1,6 +1,6 @@
 import os
 
-from financial_data_scraper.utils.config import load_config
+from api.utils.config import load_config
 
 from dotenv import load_dotenv
 import pandas as pd

@@ -1,7 +1,5 @@
-from csv import DictWriter, QUOTE_ALL
-
-from financial_data_scraper.utils.selenium_helper import SeleniumHelper
-from financial_data_scraper.interfaces.extractor_strat_interface import ExtractStrategy
+from api.utils.selenium_helper import SeleniumHelper
+from api.interfaces.extractor_strat_interface import ExtractStrategy
 
 import polars as pl
 

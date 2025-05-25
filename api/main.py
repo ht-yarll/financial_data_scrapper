@@ -6,11 +6,11 @@ from api.pipeline.extractors.chinese_cash_services import ChineseCashServicesExt
 from api.pipeline.transformers.transforms_df import TransformDF
 from api.pipeline.loaders.loading_to_bq import BatchDataOnBQ
 
-from flask import Flask
+from fastapi import FastAPI
 
-app = Flask(__name__)
+app = FastAPI()
 
-@app.route("/")
+@app.get('/')
 def main():
     config = load_config()
     
@@ -38,10 +38,4 @@ def main():
         table_name='chinese_pmi_history'
     )
 
-    bloomberg
-    usd
-    chinese
-
-
-if __name__ == "__main__":
-    app.dep
+    return {"status": "ok", "details": ["bloomberg", "usd_cny", "chinese_pmi"]}

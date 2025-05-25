@@ -14,7 +14,7 @@ def transformer():
 
 @pytest.fixture
 def config():
-    from financial_data_scraper.utils.config import load_config
+    from api.utils.config import load_config
     return load_config()
 
 def test_transformation(transformer, config):

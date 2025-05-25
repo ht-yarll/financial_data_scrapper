@@ -8,7 +8,6 @@ from selenium.webdriver.remote import remote_connection
 from time import sleep
 from datetime import datetime
 from base64 import b64encode
-from flask import Flask
 
 import psycopg2
 import os

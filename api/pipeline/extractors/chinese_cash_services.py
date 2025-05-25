@@ -1,4 +1,4 @@
-from financial_data_scraper.interfaces.extractor_strat_interface import ExtractStrategy
+from api.interfaces.extractor_strat_interface import ExtractStrategy
 import requests
 import polars as pl
 

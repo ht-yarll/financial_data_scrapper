@@ -1,5 +1,5 @@
-from financial_data_scraper.interfaces.loader_strat_interface import LoadStrategy
-from financial_data_scraper.utils.bq_helper import BigQueryHelper
+from api.interfaces.loader_strat_interface import LoadStrategy
+from api.utils.bq_helper import BigQueryHelper
 
 from dotenv import load_dotenv
 import pandas as pd
