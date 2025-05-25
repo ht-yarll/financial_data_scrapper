@@ -19,3 +19,6 @@ steps:
 
 images:
   - us.gcr.io/$PROJECT_ID/dockerfile.api:$SHORT_SHA
+
+options:
+  logging: CLOUD_LOGGING_ONLY
