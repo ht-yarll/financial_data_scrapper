@@ -36,8 +36,7 @@ class RemoteConnectionV2(remote_connection.RemoteConnection):
             identity_token = google.oauth2.id_token.fetch_id_token(auth_req, self.get_selenium_url())
         self._auth_header = {'Authorization': 'Bearer %s' % identity_token}
     
-    @classmethod
-    def get_remote_connection_headers(self, cls, parsed_url, keep_alive=False):
+    def get_remote_connection_headers(self, parsed_url, keep_alive=False):
         """
         Get headers for remote request -- an update of Selenium's RemoteConnection to include an Authentication header.
         :Args:
