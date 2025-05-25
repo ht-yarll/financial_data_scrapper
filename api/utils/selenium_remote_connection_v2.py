@@ -16,15 +16,15 @@ import platform
 import google.auth.transport.requests
 import google.oauth2.id_token
 
-
-if os.environ.get('SELENIUM_URL') is not None:
-    selenium_url = os.environ.get('SELENIUM_URL')
-else:
-    raise Exception('No remote Selenium webdriver provided in the environment.')
-
 # Overwriting the RemoteConnection class in order to authenticate with the Selenium Webdriver in Cloud Run.
 class RemoteConnectionV2(remote_connection.RemoteConnection):
-    @classmethod
+    @staticmethod
+    def get_selenium_url():
+        selenium_url = os.environ.get('SELENIUM_URL')
+        if selenium_url is None:
+            raise Exception('No remote Selenium webdriver provided in the environment.')
+        return selenium_url
+            
     def set_remote_connection_authentication_headers(self):
         # Environment variable: identity token -- this can be set locally for debugging purposes.
         if os.environ.get('IDENTITY_TOKEN') is not None:
@@ -33,7 +33,7 @@ class RemoteConnectionV2(remote_connection.RemoteConnection):
         else:
             print('[Authentication] No identity token was found in the environment. Requesting a new one.')
             auth_req = google.auth.transport.requests.Request()
-            identity_token = google.oauth2.id_token.fetch_id_token(auth_req, selenium_url)
+            identity_token = google.oauth2.id_token.fetch_id_token(auth_req, self.get_selenium_url())
         self._auth_header = {'Authorization': 'Bearer %s' % identity_token}
     
     @classmethod
