@@ -17,7 +17,6 @@ import platform
 import google.auth.transport.requests
 import google.oauth2.id_token
 
-app = Flask(__name__)
 
 if os.environ.get('SELENIUM_URL') is not None:
     selenium_url = os.environ.get('SELENIUM_URL')

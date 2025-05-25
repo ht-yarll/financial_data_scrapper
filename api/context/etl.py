@@ -1,6 +1,6 @@
-from financial_data_scraper.interfaces.extractor_strat_interface import ExtractStrategy
-from financial_data_scraper.interfaces.transformer_strat_interface import TransformStrategy
-from financial_data_scraper.interfaces.loader_strat_interface import LoadStrategy
+from api.interfaces.extractor_strat_interface import ExtractStrategy
+from api.interfaces.transformer_strat_interface import TransformStrategy
+from api.interfaces.loader_strat_interface import LoadStrategy
 
 
 def extract_transform_load(

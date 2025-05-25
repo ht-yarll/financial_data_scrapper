@@ -1,8 +1,8 @@
 import pytest
-from dags.financial_data_scraper.utils.config import load_config
-from dags.financial_data_scraper.pipeline.extractors.bloomberg_commodity import BloombergCommodityExtract
-from dags.financial_data_scraper.pipeline.extractors.chinese_cash_services import ChineseCashServicesExtract
-from dags.financial_data_scraper.pipeline.extractors.usd_currency import USDCurrencyExtract
+from api.utils.config import load_config
+from api.pipeline.extractors.bloomberg_commodity import BloombergCommodityExtract
+from api.pipeline.extractors.chinese_cash_services import ChineseCashServicesExtract
+from api.pipeline.extractors.usd_currency import USDCurrencyExtract
 
 import polars as pl
 

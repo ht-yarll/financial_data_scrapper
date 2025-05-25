@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "flask>=3.1.1",
     "google-cloud-bigquery>=3.33.0",
     "google-cloud-storage>=3.1.0",
     "pandas>=2.2.3",
@@ -16,6 +17,7 @@ dependencies = [
     "python-dotenv>=1.1.0",
     "requests>=2.32.3",
     "selenium>=4.32.0",
+    "setuptools>=80.7.1",
 ]
 
 

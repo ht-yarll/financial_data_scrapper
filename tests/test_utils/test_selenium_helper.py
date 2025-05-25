@@ -1,7 +1,7 @@
 import pytest
 
-from dags.financial_data_scraper.utils.selenium_helper import SeleniumHelper
-from dags.financial_data_scraper.utils.config import load_config
+from api.utils.selenium_helper import SeleniumHelper
+from api.utils.config import load_config
 
 from selenium.webdriver.remote.webdriver import WebDriver
 

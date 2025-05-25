@@ -1,6 +1,6 @@
 import pytest
 
-from dags.financial_data_scraper.utils.bq_helper import BigQueryHelper
+from api.utils.bq_helper import BigQueryHelper
 import pandas as pd
 
 bq = BigQueryHelper()

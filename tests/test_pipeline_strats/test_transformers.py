@@ -1,9 +1,9 @@
 import pytest
 
-from dags.financial_data_scraper.pipeline.transformers.bq_pattern_transform import TransformDF
-from dags.financial_data_scraper.pipeline.extractors.bloomberg_commodity import BloombergCommodityExtract
-from dags.financial_data_scraper.pipeline.extractors.usd_currency import USDCurrencyExtract
-from dags.financial_data_scraper.pipeline.extractors.chinese_cash_services import ChineseCashServicesExtract
+from api.pipeline.transformers.transforms_df import TransformDF
+from api.pipeline.extractors.bloomberg_commodity import BloombergCommodityExtract
+from api.pipeline.extractors.usd_currency import USDCurrencyExtract
+from api.pipeline.extractors.chinese_cash_services import ChineseCashServicesExtract
 
 import polars as pl
 import pandas as pd

@@ -2,7 +2,7 @@ import os
 import time
 from typing import List, Tuple
 
-from utils.selenium_remote_connection_v2 import RemoteConnectionV2
+from api.utils.selenium_remote_connection_v2 import RemoteConnectionV2
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service

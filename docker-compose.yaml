@@ -3,6 +3,16 @@ services:
     ports:
       - "5433:5432" 
 
+  airflow-webserver:
+    image: astrocrpublic.azurecr.io/runtime:3.0-2
+    env_file:
+      - .env
+
+  airflow-scheduler:
+    image: astrocrpublic.azurecr.io/runtime:3.0-2
+    env_file:
+      - .env
+
   webserver:
     ports:
       - "8081:8080" 

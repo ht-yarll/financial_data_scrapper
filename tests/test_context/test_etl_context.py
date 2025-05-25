@@ -1,6 +1,6 @@
 import pytest
 
-from dags.financial_data_scraper.context.etl import extract_transform_load
+from api.context.etl import extract_transform_load
 
 class DummyExtractor:
     def __init__(self, config):

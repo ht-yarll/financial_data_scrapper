@@ -12,6 +12,7 @@ wheels/
 
 # pytest
 .pytest_cache
+.vscode
 
 # Astronomer
 .git
