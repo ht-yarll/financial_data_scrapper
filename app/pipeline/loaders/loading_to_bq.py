@@ -1,5 +1,5 @@
-from api.interfaces.loader_strat_interface import LoadStrategy
-from api.utils.bq_helper import BigQueryHelper
+from app.interfaces.loader_strat_interface import LoadStrategy
+from app.utils.bq_helper import BigQueryHelper
 
 from dotenv import load_dotenv
 import pandas as pd

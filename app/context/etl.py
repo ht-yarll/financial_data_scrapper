@@ -1,6 +1,6 @@
-from api.interfaces.extractor_strat_interface import ExtractStrategy
-from api.interfaces.transformer_strat_interface import TransformStrategy
-from api.interfaces.loader_strat_interface import LoadStrategy
+from app.interfaces.extractor_strat_interface import ExtractStrategy
+from app.interfaces.transformer_strat_interface import TransformStrategy
+from app.interfaces.loader_strat_interface import LoadStrategy
 
 
 def extract_transform_load(

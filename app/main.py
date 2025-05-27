@@ -1,14 +1,14 @@
-from api.context.etl import extract_transform_load
-from api.utils.config import load_config
-from api.pipeline.extractors.bloomberg_commodity import BloombergCommodityExtract
-from api.pipeline.extractors.usd_currency import USDCurrencyExtract
-from api.pipeline.extractors.chinese_cash_services import ChineseCashServicesExtract
-from api.pipeline.transformers.transforms_df import TransformDF
-from api.pipeline.loaders.loading_to_bq import BatchDataOnBQ
+from app.context.etl import extract_transform_load
+from app.utils.config import load_config
+from app.pipeline.extractors.bloomberg_commodity import BloombergCommodityExtract
+from app.pipeline.extractors.usd_currency import USDCurrencyExtract
+from app.pipeline.extractors.chinese_cash_services import ChineseCashServicesExtract
+from app.pipeline.transformers.transforms_df import TransformDF
+from app.pipeline.loaders.loading_to_bq import BatchDataOnBQ
 
-from fastapi import FastAPI
+from fastapp import Fastapp
 
-app = FastAPI()
+app = Fastapp()
 
 @app.get('/')
 def main():
@@ -27,7 +27,7 @@ def main():
         extractor=USDCurrencyExtract,
         transformer=TransformDF,
         loader=BatchDataOnBQ,
-        table_name='usd_currency_history'
+        table_name='usd_cny_currency_history'
     )
 
     chinese = extract_transform_load(

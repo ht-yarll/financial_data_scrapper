@@ -1,7 +1,7 @@
 import pytest
 
-from api.utils.selenium_helper import SeleniumHelper
-from api.utils.config import load_config
+from app.utils.selenium_helper import SeleniumHelper
+from app.utils.config import load_config
 
 from selenium.webdriver.remote.webdriver import WebDriver
 

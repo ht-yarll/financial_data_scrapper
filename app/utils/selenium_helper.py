@@ -1,8 +1,9 @@
 import os
 import time
+from datetime import datetime, timedelta
 from typing import List, Tuple
 
-from api.utils.selenium_remote_connection_v2 import RemoteConnectionV2
+from app.utils.selenium_remote_connection_v2 import RemoteConnectionV2
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -24,6 +25,7 @@ class SeleniumHelper(RemoteConnectionV2):
             self.driver.get(self.url)
 
             self._click_on_period('Mensal')
+            self._select_date_interval_five_years()
 
             rows = WebDriverWait(self.driver, 10).until(
                 ec.presence_of_all_elements_located((By.XPATH, '//table//tbody/tr'))
@@ -83,6 +85,27 @@ class SeleniumHelper(RemoteConnectionV2):
             print(f'❌ Failed to click on "Mensal": {e}')
             return []
         
-    def _select_date_interval(self):
-        ...
-    
+    def _select_date_interval_five_years(self):
+        try:
+            end_date = datetime.today()
+            start_date = end_date - timedelta(days=5*365)
+
+            end_date_str = end_date.strftime("%d/%m/%Y")
+            start_date_str = start_date.strftime("%d/%m/%Y")
+
+            start_input = WebDriverWait(self.driver, 10).until(
+            ec.presence_of_element_located((By.CSS_SELECTOR, 'input[name="startDate"]'))
+            )
+            end_input = self.driver.find_element(By.CSS_SELECTOR, 'input[name="endDate"]')
+
+            start_input.clear()
+            start_input.send_keys(start_date_str)
+            end_input.clear()
+            end_input.send_keys(end_date_str)
+
+            apply_button = self.driver.find_element(By.CSS_SELECTOR,'div.flex.cursor-pointer.items-center.gap-3.rounded.bg-v2-blue')
+            apply_button.click()
+            print('📅 Date interval set to five years')
+
+        except Exception as e:
+            print(f'❌ Failed t select date interval: {e}')
