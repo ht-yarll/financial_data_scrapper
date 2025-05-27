@@ -1,5 +1,5 @@
-from api.utils.selenium_helper import SeleniumHelper
-from api.interfaces.extractor_strat_interface import ExtractStrategy
+from app.utils.selenium_helper import SeleniumHelper
+from app.interfaces.extractor_strat_interface import ExtractStrategy
 
 import polars as pl
 
@@ -22,7 +22,7 @@ class USDCurrencyExtract(ExtractStrategy):
 
             schema={'date':pl.Utf8, 'value':pl.Utf8, 'variation':pl.Utf8}    
             df = pl.DataFrame(values, schema = schema)
-            print(f'🐻‍❄️ Dataframe USD_Currency generated with schema {schema}')
+            print(f'🐻‍❄️ Dataframe USD_CNY_Currency generated with schema {schema}')
             selenium.quit_session()
             
             return df

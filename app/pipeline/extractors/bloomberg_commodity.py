@@ -1,5 +1,5 @@
-from api.utils.selenium_helper import SeleniumHelper
-from api.interfaces.extractor_strat_interface import ExtractStrategy
+from app.utils.selenium_helper import SeleniumHelper
+from app.interfaces.extractor_strat_interface import ExtractStrategy
 
 import polars as pl
 

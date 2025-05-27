@@ -1,9 +1,9 @@
 import pytest
 
-from api.pipeline.transformers.transforms_df import TransformDF
-from api.pipeline.extractors.bloomberg_commodity import BloombergCommodityExtract
-from api.pipeline.extractors.usd_currency import USDCurrencyExtract
-from api.pipeline.extractors.chinese_cash_services import ChineseCashServicesExtract
+from app.pipeline.transformers.transforms_df import TransformDF
+from app.pipeline.extractors.bloomberg_commodity import BloombergCommodityExtract
+from app.pipeline.extractors.usd_currency import USDCurrencyExtract
+from app.pipeline.extractors.chinese_cash_services import ChineseCashServicesExtract
 
 import polars as pl
 import pandas as pd
@@ -14,7 +14,7 @@ def transformer():
 
 @pytest.fixture
 def config():
-    from api.utils.config import load_config
+    from app.utils.config import load_config
     return load_config()
 
 def test_transformation(transformer, config):
@@ -40,9 +40,9 @@ def test_bloomberg_transformation(transformer, config):
     df_transformed = transformer.transform(df)
     assert isinstance(df_transformed, pd.DataFrame)
     assert set(['date', 'value', 'variation']).issubset(df_transformed.columns)
-    assert pd.api.types.is_datetime64_any_dtype(df_transformed['date'])
-    assert pd.api.types.is_float_dtype(df_transformed['value'])
-    assert pd.api.types.is_float_dtype(df_transformed['variation'])
+    assert pd.app.types.is_datetime64_any_dtype(df_transformed['date'])
+    assert pd.app.types.is_float_dtype(df_transformed['value'])
+    assert pd.app.types.is_float_dtype(df_transformed['variation'])
 
 def test_usd_currency_transformation(transformer, config):
     extractor = USDCurrencyExtract(config)
@@ -50,9 +50,9 @@ def test_usd_currency_transformation(transformer, config):
     df_transformed = transformer.transform(df)
     assert isinstance(df_transformed, pd.DataFrame)
     assert set(['date', 'value', 'variation']).issubset(df_transformed.columns)
-    assert pd.api.types.is_datetime64_any_dtype(df_transformed['date'])
-    assert pd.api.types.is_float_dtype(df_transformed['value'])
-    assert pd.api.types.is_float_dtype(df_transformed['variation'])
+    assert pd.app.types.is_datetime64_any_dtype(df_transformed['date'])
+    assert pd.app.types.is_float_dtype(df_transformed['value'])
+    assert pd.app.types.is_float_dtype(df_transformed['variation'])
 
 def test_chinese_cash_services_transformation(transformer, config):
     extractor = ChineseCashServicesExtract(config)
@@ -60,6 +60,6 @@ def test_chinese_cash_services_transformation(transformer, config):
     df_transformed = transformer.transform(df)
     assert isinstance(df_transformed, pd.DataFrame)
     assert set(['date', 'value']).issubset(df_transformed.columns)
-    assert pd.api.types.is_datetime64_any_dtype(df_transformed['date'])
-    assert pd.api.types.is_float_dtype(df_transformed['value'])
+    assert pd.app.types.is_datetime64_any_dtype(df_transformed['date'])
+    assert pd.app.types.is_float_dtype(df_transformed['value'])
 

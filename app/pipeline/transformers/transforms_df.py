@@ -2,7 +2,7 @@ import unicodedata
 import re
 from datetime import datetime
 from decimal import Decimal, InvalidOperation
-from api.interfaces.transformer_strat_interface import TransformStrategy
+from app.interfaces.transformer_strat_interface import TransformStrategy
 import polars as pl
 import pandas as pd
 

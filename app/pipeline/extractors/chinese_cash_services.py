@@ -1,4 +1,4 @@
-from api.interfaces.extractor_strat_interface import ExtractStrategy
+from app.interfaces.extractor_strat_interface import ExtractStrategy
 import requests
 import polars as pl
 

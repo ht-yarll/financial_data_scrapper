@@ -1,6 +1,6 @@
 import pytest
 
-from api.utils.bq_helper import BigQueryHelper
+from app.utils.bq_helper import BigQueryHelper
 import pandas as pd
 
 bq = BigQueryHelper()

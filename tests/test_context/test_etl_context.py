@@ -1,6 +1,6 @@
 import pytest
 
-from api.context.etl import extract_transform_load
+from app.context.etl import extract_transform_load
 
 class DummyExtractor:
     def __init__(self, config):

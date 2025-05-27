@@ -1,6 +1,6 @@
 import os
 
-from api.utils.config import load_config
+from app.utils.config import load_config
 
 from dotenv import load_dotenv
 import pandas as pd
