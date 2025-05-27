@@ -6,9 +6,9 @@ from app.pipeline.extractors.chinese_cash_services import ChineseCashServicesExt
 from app.pipeline.transformers.transforms_df import TransformDF
 from app.pipeline.loaders.loading_to_bq import BatchDataOnBQ
 
-from fastapp import Fastapp
+from fastapi import FastAPI
 
-app = Fastapp()
+app = FastAPI()
 
 @app.get('/')
 def main():
