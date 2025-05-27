@@ -89,10 +89,14 @@ class TransformDF(TransformStrategy):
         if not isinstance(date, str):
             return date
         
-        for fmt in ('%Y-%m-%d', '%d/%m/%Y', '%Y.%m.%d', '%d.%m.%Y', '%Y-%m-%d %H:%M:%S:%f', '%Y-%m-%d %H:%M:%S.%f'):
-            try:
-                result = datetime.strptime(date, fmt).date()
-                return result
-            except ValueError:
-                continue
+        if isinstance(date, (int, float)) and date > 0:
+            return datetime.fromtimestamp(date/1000).date()
+        
+        if isinstance(date, str):
+            for fmt in ('%Y-%m-%d', '%d/%m/%Y', '%Y.%m.%d', '%d.%m.%Y', '%Y-%m-%d %H:%M:%S:%f', '%Y-%m-%d %H:%M:%S.%f'):
+                try:
+                    result = datetime.strptime(date, fmt).date()
+                    return result
+                except ValueError:
+                    continue
         return None
