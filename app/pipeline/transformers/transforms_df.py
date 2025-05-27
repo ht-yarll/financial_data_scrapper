@@ -1,6 +1,7 @@
 import unicodedata
 import re
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 from decimal import Decimal, InvalidOperation
 from app.interfaces.transformer_strat_interface import TransformStrategy
 import polars as pl
@@ -89,8 +90,16 @@ class TransformDF(TransformStrategy):
         if not isinstance(date, str):
             return date
         
+        if isinstance(date, str) and date.isdigit():
+            date = int(date)
+        
         if isinstance(date, (int, float)) and date > 0:
-            return datetime.fromtimestamp(date/1000).date()
+            seconds_per_month = 30 * 24 * 60 * 60
+            if date % seconds_per_month != 0:
+                return datetime.fromtimestamp(date/1000).date()
+            months_since_epoch = int(date // seconds_per_month)
+            base_date = datetime(1970, 1, 1)
+            return (base_date + relativedelta(months=months_since_epoch)).date()
         
         if isinstance(date, str):
             for fmt in ('%Y-%m-%d', '%d/%m/%Y', '%Y.%m.%d', '%d.%m.%Y', '%Y-%m-%d %H:%M:%S:%f', '%Y-%m-%d %H:%M:%S.%f'):
@@ -99,4 +108,5 @@ class TransformDF(TransformStrategy):
                     return result
                 except ValueError:
                     continue
+            print(f"[WARN] Data inválida ou não reconhecida: '{date}'")
         return None

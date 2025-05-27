@@ -27,9 +27,6 @@ class SeleniumHelper(RemoteConnectionV2):
             self._click_on_period('Mensal')
             time.sleep(3.0)
 
-            self._select_date_interval_five_years()
-            time.sleep(2.0)
-
             rows = WebDriverWait(self.driver, 10).until(
                 ec.presence_of_all_elements_located((By.XPATH, '//table//tbody/tr'))
             )
