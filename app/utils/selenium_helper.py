@@ -25,7 +25,10 @@ class SeleniumHelper(RemoteConnectionV2):
             self.driver.get(self.url)
 
             self._click_on_period('Mensal')
+            time.sleep(3.0)
+
             self._select_date_interval_five_years()
+            time.sleep(2.0)
 
             rows = WebDriverWait(self.driver, 10).until(
                 ec.presence_of_all_elements_located((By.XPATH, '//table//tbody/tr'))
@@ -68,8 +71,8 @@ class SeleniumHelper(RemoteConnectionV2):
         
     def _click_on_period(self, period: str):
         try:
-            dropdowbox = self.driver.find_element(By.CLASS_NAME, 'historical-data-v2_selection-arrow__3mX7U')
-            dropdowbox.click()
+            # dropdowbox = self.driver.find_element(By.CLASS_NAME, 'historical-data-v2_selection-arrow__3mX7U')
+            # dropdowbox.click()
 
             selection = self.driver.find_elements(By.CLASS_NAME, 'historical-data-v2_menu-row-text__ZgtVH')
             period = 'Mensal' # Mensal -> Monthly | Diário -> Daily | Semanal -> Weekly
@@ -85,27 +88,4 @@ class SeleniumHelper(RemoteConnectionV2):
             print(f'❌ Failed to click on "Mensal": {e}')
             return []
         
-    def _select_date_interval_five_years(self):
-        try:
-            end_date = datetime.today()
-            start_date = end_date - timedelta(days=5*365)
-
-            end_date_str = end_date.strftime("%d/%m/%Y")
-            start_date_str = start_date.strftime("%d/%m/%Y")
-
-            start_input = WebDriverWait(self.driver, 10).until(
-            ec.presence_of_element_located((By.CSS_SELECTOR, 'input[name="startDate"]'))
-            )
-            end_input = self.driver.find_element(By.CSS_SELECTOR, 'input[name="endDate"]')
-
-            start_input.clear()
-            start_input.send_keys(start_date_str)
-            end_input.clear()
-            end_input.send_keys(end_date_str)
-
-            apply_button = self.driver.find_element(By.CSS_SELECTOR,'div.flex.cursor-pointer.items-center.gap-3.rounded.bg-v2-blue')
-            apply_button.click()
-            print('📅 Date interval set to five years')
-
-        except Exception as e:
-            print(f'❌ Failed t select date interval: {e}')
+    
