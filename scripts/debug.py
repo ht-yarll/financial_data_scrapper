@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime, date, timedelta
 from time import sleep
 
 from selenium import webdriver
@@ -84,6 +84,42 @@ def extract(url) -> pl.Dataframe:
     ]).select(['date', 'value'])
     print(df.head())
     return df
+
+def select_date_interval_five_years(self):
+        try:
+            date_drop = self.driver.find_element(By.CSS_SELECTOR, 'div.flex.flex-1.flex-col.justify-center')
+            date_drop.click()
+
+            end_date = datetime.today()
+            start_date = end_date - timedelta(days=5*365)
+
+            end_date_str = end_date.strftime("%m/%d/%Y")
+            start_date_str = start_date.strftime("%m/%d/%Y")
+
+            start_input = WebDriverWait(self.driver, 10).until(
+            ec.presence_of_element_located((By.CSS_SELECTOR, 'input[name="startDate"]'))
+            )
+
+            end_input = WebDriverWait(self.driver, 10).until(
+            ec.element_to_be_clickable((By.CSS_SELECTOR, 'input[name="endDate"]'))
+            )
+
+            self.driver.execute_script("arguments[0].removeAttribute('readonly')", start_input)
+            self.driver.execute_script("arguments[0].removeAttribute('readonly')", end_input)
+
+            print("Preenchendo datas...")
+            start_input.clear()
+            start_input.send_keys(start_date_str)
+            end_input.clear()
+            end_input.send_keys(end_date_str)
+
+            print("Buscando botão aplicar...")
+            apply_button = self.driver.find_element(By.CSS_SELECTOR,'div.flex.cursor-pointer.items-center.gap-3.rounded.bg-v2-blue')
+            apply_button.click()
+            print('📅 Date interval set to five years')
+
+        except Exception as e:
+            print(f'❌ Failed t select date interval: {e}')
 
 
 url =' https://sbcharts.investing.com/charts_xml/cce9bf7363d8e7d1609664b9b9e2d468_max.json'
