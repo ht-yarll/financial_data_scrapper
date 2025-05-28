@@ -9,4 +9,4 @@ urls:
 
 services:
   bigquery:
-    dataset: financial_data_scrapper
+    dataset: financial_data_scrapper_bronze
