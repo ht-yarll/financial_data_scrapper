@@ -25,33 +25,33 @@ class SeleniumHelper(RemoteConnectionV2):
             self.driver.get(self.url)
 
             self._click_on_period('Mensal')
-            time.sleep(3.0)
+            time.sleep(1.5)
 
-            rows = WebDriverWait(self.driver, 10).until(
-                ec.presence_of_all_elements_located((By.XPATH, '//table//tbody/tr'))
-            )
+            rows = self.driver.find_elements(By.XPATH, '//table[contains(@class, "historicalTbl")]/tbody/tr')
 
             elements_list = []
             for row in rows:
+                cells = row.find_elements(By.TAG_NAME, 'td')
                 try:
-                    date = row.find_element(By.XPATH, './td[1]/time')
-                    value = row.find_element(By.XPATH, './/td[contains(@class, "font-normal") and contains(text(), ",")]')
-                    variation = row.find_element(By.XPATH,'.//td[contains(@class, "font-bold") and contains(text(), "%")]')
-                    pack = (date.text, value.text, variation.text)
-                    elements_list.append(pack)
+                    record = {
+                        "date": cells[0].text,
+                        "last": cells[1].text,
+                        "open": cells[2].text,
+                        "high": cells[3].text, 
+                        "low": cells[4].text,
+                        "variation": cells[6].text
+                    }
+                    elements_list.append(record)
+
                 except Exception as e:
                     continue
- 
+            
             return elements_list
 
         except Exception as e:
             print(f'❌ Failed to fetch elements for parameter: {e}')
             return []
 
-
-    def quit_session(self):
-        return self.driver.quit()
-    
     
     def _init_session(self):
         try:
@@ -65,12 +65,11 @@ class SeleniumHelper(RemoteConnectionV2):
         except Exception as e:
             print(f'❌ Failed to connect: {e}')
 
+    def quit_session(self):
+        return self.driver.quit()
         
     def _click_on_period(self, period: str):
         try:
-            # dropdowbox = self.driver.find_element(By.CLASS_NAME, 'historical-data-v2_selection-arrow__3mX7U')
-            # dropdowbox.click()
-
             selection = self.driver.find_elements(By.CLASS_NAME, 'historical-data-v2_menu-row-text__ZgtVH')
             period = 'Mensal' # Mensal -> Monthly | Diário -> Daily | Semanal -> Weekly
             for option in selection:

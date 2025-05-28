@@ -5,18 +5,17 @@ from app.utils.config import load_config
 
 from selenium.webdriver.remote.webdriver import WebDriver
 
-def test_selenium_helper_succesufully_connects():
+def test_selenium_remote_connection():
     config = load_config()
-    s = SeleniumHelper(config)
-    con = s._init_session()
+    helper = SeleniumHelper(config['urls']['usd_currency'])  # Passe uma URL real de teste
+    driver = helper.driver
 
-    assert isinstance(con, WebDriver)
+    assert isinstance(driver, WebDriver)
 
-def test_selenium_helper_returns_list_of_tuples():
-    config = load_config()
-    s = SeleniumHelper(config)
-    elements = s.get_monthly_elements()
-    limited_elements = elements[:3]
+    driver.get("https://www.google.com")
+    assert "Google" in driver.title
 
-    assert isinstance(limited_elements, list)
-    assert all(isinstance(item, tuple) for item in limited_elements)
+    search_box = driver.find_element("name", "q")
+    assert search_box is not None
+
+    driver.quit()

@@ -14,16 +14,17 @@ class TransformDF(TransformStrategy):
     
     def transform(self, df: pl.DataFrame) -> pd.DataFrame:
         try:
-            df_date_parsed = df.with_columns(
-                pl.col('date')
-                .map_elements(self._parse_date, return_dtype = pl.Date)
-                if 'date' in df.columns else df
-            )
+            # df_date_parsed = df.with_columns(
+            #     pl.col('date')
+            #     .map_elements(self._parse_date, return_dtype = pl.Date)
+            #     if 'date' in df.columns else df
+            # )
 
-            df_values_parsed = df_date_parsed.with_columns(
-                pl.col('value')
+            decimal_cols = ['last', 'open', 'high', 'low', 'value']
+            df_values_parsed = df.with_columns(
+                pl.col(col)
                 .map_elements(self._parse_decimal, return_dtype = pl.Float64)
-                if 'value' in df_date_parsed.columns else df_date_parsed
+                for col in decimal_cols if col in df.columns
             )
 
             df_variation_parsed = df_values_parsed.with_columns(
@@ -86,27 +87,27 @@ class TransformDF(TransformStrategy):
         except ValueError:
             return None
     
-    def _parse_date(self, date):
-        if not isinstance(date, str):
-            return date
+    # def _parse_date(self, date):
+    #     if not isinstance(date, str):
+    #         return date
         
-        if isinstance(date, str) and date.isdigit():
-            date = int(date)
+    #     if isinstance(date, str) and date.isdigit():
+    #         date = int(date)
         
-        if isinstance(date, (int, float)) and date > 0:
-            seconds_per_month = 30 * 24 * 60 * 60
-            if date % seconds_per_month != 0:
-                return datetime.fromtimestamp(date/1000).date()
-            months_since_epoch = int(date // seconds_per_month)
-            base_date = datetime(1970, 1, 1)
-            return (base_date + relativedelta(months=months_since_epoch)).date()
+    #     if isinstance(date, (int, float)) and date > 0:
+    #         seconds_per_month = 30 * 24 * 60 * 60
+    #         if date % seconds_per_month != 0:
+    #             return datetime.fromtimestamp(date/1000).date()
+    #         months_since_epoch = int(date // seconds_per_month)
+    #         base_date = datetime(1970, 1, 1)
+    #         return (base_date + relativedelta(months=months_since_epoch)).date()
         
-        if isinstance(date, str):
-            for fmt in ('%Y-%m-%d', '%d/%m/%Y', '%Y.%m.%d', '%d.%m.%Y', '%Y-%m-%d %H:%M:%S:%f', '%Y-%m-%d %H:%M:%S.%f'):
-                try:
-                    result = datetime.strptime(date, fmt).date()
-                    return result
-                except ValueError:
-                    continue
-            print(f"[WARN] Data inválida ou não reconhecida: '{date}'")
-        return None
+    #     if isinstance(date, str):
+    #         for fmt in ('%Y-%m-%d', '%d/%m/%Y', '%Y.%m.%d', '%d.%m.%Y', '%Y-%m-%d %H:%M:%S:%f', '%Y-%m-%d %H:%M:%S.%f'):
+    #             try:
+    #                 result = datetime.strptime(date, fmt).date()
+    #                 return result
+    #             except ValueError:
+    #                 continue
+    #         print(f"[WARN] Data inválida ou não reconhecida: '{date}'")
+    #     return None
