@@ -31,6 +31,9 @@ class BigQueryHelper:
         try:
             table_id = f"{self.config['services']['bigquery']['dataset']}.{table_name}"
             pdgbq.to_gbq(df, destination_table=table_id, if_exists='replace')
+            print(f'🤗 Batch data on BigQuery on: {table_id}')
+            return True
 
         except Exception as e:
             print(f'😞 Unable to load DataFrame on BQ: {e}')
+            return False
