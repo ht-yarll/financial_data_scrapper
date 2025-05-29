@@ -10,7 +10,7 @@ class USDCurrencyExtract(ExtractStrategy):
     def extract(self) -> pl.DataFrame:
         try:
             selenium = SeleniumHelper(self.config['urls']['usd_currency'])
-            elements = selenium.get_monthly_elements()
+            elements = selenium.get_elements()
             schema={'date':pl.Utf8, 'last':pl.Utf8, 'open':pl.Utf8, 'high':pl.Utf8, 'low':pl.Utf8 , 'variation':pl.Utf8}    
             df = pl.DataFrame(elements, schema = schema)
             print(f'🐻‍❄️ Dataframe USD_CNY_Currency generated with schema {schema}')

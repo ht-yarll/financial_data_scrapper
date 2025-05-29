@@ -16,6 +16,7 @@ def test_bloomberg_returns_valid_dataframe():
     bloom = BloombergCommodityExtract(config)
     df = bloom.extract()
     df = df.head()
+    print(df)
 
     expected_bloom = expected
 
@@ -29,6 +30,7 @@ def test_usd_currency_returns_valid_dataframe():
     usd = USDCurrencyExtract(config)
     df = usd.extract()
     df = df.head()
+    print(df)
 
     expected_usd_cny = expected
 

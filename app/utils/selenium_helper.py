@@ -20,14 +20,14 @@ class SeleniumHelper(RemoteConnectionV2):
         self.url = url # site to scrape
         self.driver = self._init_session()
 
-    def get_monthly_elements(self) -> List[Tuple[str, str, str]]:
+    def get_elements(self) -> List[Tuple[str, str, str]]:
         try:
             self.driver.get(self.url)
 
             self._click_on_period('Mensal')
             time.sleep(1.5)
 
-            rows = self.driver.find_elements(By.XPATH, '//table[contains(@class, "historicalTbl")]/tbody/tr')
+            rows = WebDriverWait(self.driver, 10).until(ec.visibility_of_all_elements_located((By.XPATH, "tr.historical-data-v2_price__atUfP")))
 
             elements_list = []
             for row in rows:
