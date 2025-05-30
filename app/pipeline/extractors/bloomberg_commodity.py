@@ -10,7 +10,7 @@ class BloombergCommodityExtract(ExtractStrategy):
     def extract(self) -> pl.DataFrame:
         try:
             selenium = SeleniumHelper(self.config['urls']['commodity'])
-            elements = selenium.get_monthly_elements()
+            elements = selenium.get_elements()
 
             schema = {'date':pl.Utf8, 'last':pl.Utf8, 'open':pl.Utf8, 'high':pl.Utf8, 'low':pl.Utf8 , 'variation':pl.Utf8}
             df = pl.DataFrame(elements, schema = schema)
