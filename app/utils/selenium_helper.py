@@ -25,9 +25,8 @@ class SeleniumHelper(RemoteConnectionV2):
             self.driver.get(self.url)
 
             self._click_on_period('Mensal')
-            time.sleep(1.5)
 
-            rows = WebDriverWait(self.driver, 10).until(ec.visibility_of_all_elements_located((By.XPATH, "tr.historical-data-v2_price__atUfP")))
+            rows = WebDriverWait(self.driver, 10).until(ec.visibility_of_all_elements_located((By.CSS_SELECTOR, "tr.historical-data-v2_price__atUfP")))
 
             elements_list = []
             for row in rows:
@@ -70,6 +69,9 @@ class SeleniumHelper(RemoteConnectionV2):
         
     def _click_on_period(self, period: str):
         try:
+            period_drop = self.driver.find_element(By.CSS_SELECTOR, 'div.historical-data-v2_selection-arrow__3mX7U')
+            period_drop.click()
+
             selection = self.driver.find_elements(By.CLASS_NAME, 'historical-data-v2_menu-row-text__ZgtVH')
             period = 'Mensal' # Mensal -> Monthly | Diário -> Daily | Semanal -> Weekly
             for option in selection:
