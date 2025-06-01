@@ -1,6 +1,8 @@
 from datetime import datetime, date, timedelta
 from time import sleep
 
+from app.utils.config import load_config
+
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
@@ -74,15 +76,10 @@ class SeleniumHelper():
 
    
 
-def extract(url) -> pl.Dataframe:
+def extract(url) -> pl.DataFrame:
     res = requests.get(url)
     results = res.json()
-    values = results['candles']
-    df = pl.DataFrame(values, schema=['timestamp', 'value'], strict=False)
-    df = df.with_columns([
-        (pl.col('timestamp').cast(pl.Datetime).dt.cast_time_unit('ms')).alias('date')
-    ]).select(['date', 'value'])
-    print(df.head())
+    df = pl.DataFrame(results, strict=False)
     return df
 
 def select_date_interval_five_years(self):
@@ -121,6 +118,19 @@ def select_date_interval_five_years(self):
         except Exception as e:
             print(f'❌ Failed t select date interval: {e}')
 
+def see_coonection_with_api(url, config):
+    headers = config['services']['requests']['headers']
+    res = requests.post(url, headers=headers)
 
-url =' https://sbcharts.investing.com/charts_xml/cce9bf7363d8e7d1609664b9b9e2d468_max.json'
-extract(url = url)
+    if res.status_code != 200:
+        print('Failed to connect')
+        raise ValueError("API reaised an error", res.status_code)
+
+    print('Success')
+
+
+# Exec --------------------------------------
+config = load_config()
+url = 'https://data.investing.com/api/s/track'
+
+see_coonection_with_api(url, config)

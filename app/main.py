@@ -1,10 +1,10 @@
 from app.context.etl import extract_transform_load
 from app.utils.config import load_config
-from app.pipeline.extractors.bloomberg_commodity import BloombergCommodityExtract
-from app.pipeline.extractors.usd_cny_currency import USDCurrencyExtract
-from app.pipeline.extractors.chinese_cash_services import ChineseCashServicesExtract
-from app.pipeline.transformers.transforms_df import TransformDF
-from app.pipeline.loaders.loading_to_bq import BatchDataOnBQ
+from app.strategies.extractors.bloomberg_commodity_strategy import BloombergCommodityExtract
+from app.strategies.extractors.usd_cny_currency_strategy import USDCurrencyExtract
+from app.strategies.extractors.chinese_cash_services_strategy import ChineseCashServicesExtract
+from app.strategies.transformers.transform_df_strategy import TransformDF
+from app.strategies.loaders.loading_to_bq_strategy import BatchDataOnBQ
 
 from fastapi import FastAPI
 

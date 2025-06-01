@@ -1,9 +1,9 @@
 import pytest
 
-from app.pipeline.transformers.transforms_df import TransformDF
-from app.pipeline.extractors.bloomberg_commodity import BloombergCommodityExtract
-from app.pipeline.extractors.usd_cny_currency import USDCurrencyExtract
-from app.pipeline.extractors.chinese_cash_services import ChineseCashServicesExtract
+from app.strategies.transformers.transform_df_strategy import TransformDF
+from app.strategies.extractors.bloomberg_commodity_strategy import BloombergCommodityExtract
+from app.strategies.extractors.usd_cny_currency_strategy import USDCurrencyExtract
+from app.strategies.extractors.chinese_cash_services_strategy import ChineseCashServicesExtract
 
 import polars as pl
 import pandas as pd

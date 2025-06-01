@@ -10,3 +10,12 @@ urls:
 services:
   bigquery:
     dataset: financial_data_scrapper_bronze
+  
+  requests:
+    headers: {
+      "Origin": "https://br.investing.com",
+      "Referer": "https://br.investing.com/",
+      "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36",
+      "X-Write-Key": "fj23xkcWDdlAzhDYRN4ReiCn30Cdqu0N:H92VagPxy3OLBZcWCvZgkAzlts1C0jOm"
+    }
+      
