@@ -12,7 +12,7 @@ steps:
       - --image=us.gcr.io/$PROJECT_ID/dockerfile.api:$SHORT_SHA
       - --region=us-central1
       - --platform=managed
-      - --set-env-vars=SELENIUM_URL=https://selenium-standalone-chrome-212994923775.us-central1.run.app
+      - --set-env-vars=SELENIUM_URL=https://selenium-chrome-standalone-212994923775.us-central1.run.app
       - --memory=2G
       - --allow-unauthenticated
       - --service-account=learning-and-grinding@estud-460321.iam.gserviceaccount.com

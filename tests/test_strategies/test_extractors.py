@@ -1,8 +1,8 @@
 import pytest
 from app.utils.config import load_config
-from app.pipeline.extractors.bloomberg_commodity import BloombergCommodityExtract
-from app.pipeline.extractors.chinese_cash_services import ChineseCashServicesExtract
-from app.pipeline.extractors.usd_cny_currency import USDCurrencyExtract
+from app.strategies.extractors.bloomberg_commodity_strategy import BloombergCommodityExtract
+from app.strategies.extractors.chinese_cash_services_strategy import ChineseCashServicesExtract
+from app.strategies.extractors.usd_cny_currency_strategy import USDCurrencyExtract
 
 import polars as pl
 
