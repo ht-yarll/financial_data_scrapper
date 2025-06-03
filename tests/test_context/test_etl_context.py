@@ -1,6 +1,6 @@
 import pytest
 
-from app.context.etl import extract_transform_load
+from app.context.etl import ExtractTransformLoad
 
 class DummyExtractor:
     def __init__(self, config):
@@ -30,10 +30,11 @@ class DummyLoader:
 def test_extract_transform_load():
     config = {"some": "config"}
     loader = DummyLoader(config)
-    extract_transform_load(
+    t = ExtractTransformLoad(
         config,
         extractor=DummyExtractor,
         transformer=DummyTransformer,
         loader=DummyLoader,
         table_name="test_table"
     )
+    t.run()

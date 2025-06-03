@@ -1,7 +1,6 @@
 from datetime import timedelta
 import pendulum
 
-
 from airflow.decorators import dag
 from airflow.models import Variable
 from airflow.providers.http.operators.http import HttpOperator

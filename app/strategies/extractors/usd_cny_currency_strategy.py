@@ -3,7 +3,7 @@ from app.interfaces.extractor_strat_interface import ExtractStrategy
 
 import polars as pl
 
-class USDCurrencyExtract(ExtractStrategy):
+class USDCurrencyExtractS(ExtractStrategy):
     def __init__(self, config):
         self.config = config
     
