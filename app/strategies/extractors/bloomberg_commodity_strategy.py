@@ -3,7 +3,7 @@ from app.interfaces.extractor_strat_interface import ExtractStrategy
 
 import polars as pl
 
-class BloombergCommodityExtract(ExtractStrategy):
+class BloombergCommodityExtractS(ExtractStrategy):
     def __init__(self, config):
         self.config = config
     
