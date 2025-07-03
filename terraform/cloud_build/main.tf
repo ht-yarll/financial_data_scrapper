@@ -1,20 +1,17 @@
-resource "google_cloudbuild_trigger" "test-trigger" {
-  name     = "test-trigger"
-  location = var.region # Região do Cloud Build
-  description = "Trigger para executar testes automatizados"
-  tags = ["tests"]
+resource "google_cloudbuild_trigger" "gen2_trigger" {
+  project  = var.project_id
+  location = var.region
+  name     = var.trigger_name
 
   service_account = var.service_account
 
   filename = "test-trigger.cloudbuild.yaml"
 
-  # Dispara em push na branch main
-  github {
-    owner = var.github_owner
-    name  = var.github_repo
+  repository_event_config {
+    repository = var.repository_id
 
-    pull_request { 
-        branch = "master" 
-        }
+    pull_request {
+      branch = "^master$"
+    }
   }
 }
