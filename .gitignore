@@ -15,6 +15,7 @@ wheels/
 .vscode
 
 # Astronomer
+.astro/
 .git
 .env
 .DS_Store
@@ -26,3 +27,8 @@ airflow-webserver.pid
 webserver_config.py
 airflow.cfg
 airflow.db
+
+# Terraform
+terraform/.terraform
+terraform/.terraform.lock.hcl
+terraform/terraform.tfstate

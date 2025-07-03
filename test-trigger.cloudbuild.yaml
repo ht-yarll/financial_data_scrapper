@@ -1,0 +1,11 @@
+steps:
+  # Atualiza pip e instala dependências
+  - name: python:3.11-slim           # imagem pública do Docker Hub
+    entrypoint: bash
+    args:
+      - -c
+      - |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pytest tests -q
+timeout: 900s
