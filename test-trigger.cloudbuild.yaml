@@ -9,3 +9,6 @@ steps:
           pip install -r requirements.txt
           pytest tests -q
 timeout: 900s
+
+options:
+  logging: CLOUD_LOGGING_ONLY
