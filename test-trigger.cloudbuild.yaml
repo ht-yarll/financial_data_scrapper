@@ -8,9 +8,9 @@ steps:
           set -e
           pip install --upgrade pip
           pip install -r requirements.txt
-          pip innstall -e .
+          pip install -e .
           pytest tests -q
-          
+
 timeout: 900s
 
 options:
