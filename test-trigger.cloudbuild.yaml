@@ -16,7 +16,7 @@ steps:
           pip install "apache-airflow==2.9.0" --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.9.0/constraints-3.12.txt"
           pip install -e .
 
-          export SELENIUM_REMOTE_URL=https://selenium-chrome-standalone-212994923775.us-central1.run.app/wd/hub
+          export SELENIUM_URL=https://selenium-chrome-standalone-212994923775.us-central1.run.app/wd/hub
 
           pytest tests -q
 
