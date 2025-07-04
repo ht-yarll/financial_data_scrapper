@@ -28,8 +28,6 @@ steps:
 
           # Gera identity token para Cloud Run
           ID_TOKEN=$(gcloud auth print-identity-token)
-
-          # Verifica disponibilidade do Selenium remoto com autenticação IAM
           curl -H "Authorization: Bearer $ID_TOKEN" -fs $_SELENIUM_URL/status || exit 1
 
           # Exporta variáveis usadas nos testes
