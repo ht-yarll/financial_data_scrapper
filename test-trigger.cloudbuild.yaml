@@ -1,41 +1,42 @@
 steps:
   - id: running tests
-    name: python:3.12-slim
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
     entrypoint: bash
     args:
       - -c
       - |
           set -e
 
+          # Instala dependências do sistema
           apt-get update && apt-get install -y --no-install-recommends \
             build-essential \
             curl \
             gnupg \
-            ca-certificates
+            ca-certificates \
+            python3-pip
 
-          # Instala gcloud SDK
-          curl -sSL https://sdk.cloud.google.com | bash
-          export PATH=$PATH:/root/google-cloud-sdk/bin
-
-          # Define projeto no gcloud (Cloud Build já tem credenciais)
+          # Verifica gcloud e projeto
+          gcloud --version
           gcloud config set project $PROJECT_ID
 
+          # Atualiza pip e instala dependências
           pip install --upgrade pip
           pip install -r requirements.txt
           pip install "apache-airflow==2.9.0" \
             --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.9.0/constraints-3.12.txt"
           pip install -e .
 
-          # Gera identity token para autenticar com o Cloud Run
+          # Gera identity token para Cloud Run
           ID_TOKEN=$(gcloud auth print-identity-token)
 
-          # Testa conexão com o Selenium protegido por IAM
+          # Verifica disponibilidade do Selenium remoto com autenticação IAM
           curl -H "Authorization: Bearer $ID_TOKEN" -fs $_SELENIUM_URL/status || exit 1
 
-          # Exporta para os testes acessarem
+          # Exporta variáveis usadas nos testes
           export SELENIUM_URL=$_SELENIUM_URL
           export SELENIUM_ID_TOKEN=$ID_TOKEN
 
+          # Executa os testes
           pytest tests -q
 
 timeout: 900s
