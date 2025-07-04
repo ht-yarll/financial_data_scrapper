@@ -1,19 +1,4 @@
 steps:
-  # 1) Baixa e sobe o Selenium Grid (Chrome headless) em background
-  - id: start-selenium
-    name: gcr.io/cloud-builders/docker
-    entrypoint: bash
-    args:
-      - -c
-      - |
-        docker run -d --name selenium-for-tests \
-          -p 4444:4444 --shm-size=2g \
-          selenium/standalone-chrome:4.21.0
-        for i in {1..20}; do
-          if curl -fs http://localhost:4444/wd/hub/status >/dev/null; then break; fi
-          sleep 1
-        done
-
   # Atualiza pip e instala dependências
   - id: running tests
     name: python:3.12-slim           # imagem pública do Docker Hub
@@ -30,13 +15,11 @@ steps:
           pip install -r requirements.txt
           pip install "apache-airflow==2.9.0" --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.9.0/constraints-3.12.txt"
           pip install -e .
-          export SELENIUM_REMOTE_URL=http://localhost:4444/wd/hub
+
+          export SELENIUM_REMOTE_URL=https://selenium-chrome-standalone-212994923775.us-central1.run.app/wd/hub
+          curl -fs $SELENIUM_REMOTE_URL/status || exit 1
+
           pytest tests -q
-
-  - id: stop-selenium
-    name: gcr.io/cloud-builders/docker
-    args: ["rm", "-f", "-v", "selenium-for-tests"]
-
 
 timeout: 900s
 
