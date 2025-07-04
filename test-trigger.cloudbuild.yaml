@@ -1,3 +1,6 @@
+substitutions:
+  _SELENIUM_URL: "https://selenium-chrome-standalone-212994923775.us-central1.run.app/wd/hub"
+
 steps:
   - id: running tests
     name: python:3.12-slim
@@ -13,31 +16,29 @@ steps:
             gnupg \
             ca-certificates
 
-          # Instala gcloud CLI para gerar identity token
+          # Instala gcloud SDK
           curl -sSL https://sdk.cloud.google.com | bash
           export PATH=$PATH:/root/google-cloud-sdk/bin
 
-          # Autentica (Cloud Build já está autenticado, basta ativar o SDK)
+          # Define projeto no gcloud (Cloud Build já tem credenciais)
           gcloud config set project $PROJECT_ID
 
-          # Instala dependências do Python
           pip install --upgrade pip
           pip install -r requirements.txt
           pip install "apache-airflow==2.9.0" \
             --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.9.0/constraints-3.12.txt"
           pip install -e .
 
-          # Gera token para autenticar contra Cloud Run
+          # Gera identity token para autenticar com o Cloud Run
           ID_TOKEN=$(gcloud auth print-identity-token)
 
-          # Testa se o Selenium está pronto
-          curl -H "Authorization: Bearer $ID_TOKEN" \
-               -fs https://selenium-chrome-standalone-212994923775.us-central1.run.app/wd/hub/status || exit 1
+          # Testa conexão com o Selenium protegido por IAM
+          curl -H "Authorization: Bearer $ID_TOKEN" -fs $_SELENIUM_URL/status || exit 1
 
-          # Exporta a URL (sem token) — o token será usado no seu código Python
-          export SELENIUM_URL=https://selenium-chrome-standalone-212994923775.us-central1.run.app/wd/hub
+          # Exporta para os testes acessarem
+          export SELENIUM_URL=$_SELENIUM_URL
+          export SELENIUM_ID_TOKEN=$ID_TOKEN
 
-          # Executa os testes
           pytest tests -q
 
 timeout: 900s
