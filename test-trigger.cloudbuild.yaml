@@ -6,13 +6,16 @@ steps:
       - -c
       - |
           set -e
-          apt-get update && apt-get install -y --no-install-recommends build-essential
+          apt-get update && apt-get install -y --no-install-recommends \
+          build-essential \ 
+          curl
+          
           pip install --upgrade pip
           pip install -r requirements.txt
 
           curl -sSLo constraints.txt https://raw.githubusercontent.com/apache/airflow/main/constraints-3.13.txt
           pip install "apache-airflow" --constraint constraints.txt
-          
+
           pip install -e .
           pytest tests -q
 
