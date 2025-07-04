@@ -12,6 +12,7 @@ Este projeto automatiza a extração, transformação e carga (ETL) de dados fin
 - **Extração de dados financeiros** de sites como Bloomberg usando Selenium remoto.
 - **Orquestração de ETL** com Apache Airflow (DAGs customizadas).
 - **Deploy automatizado** no Google Cloud Run via Cloud Build.
+- **Provisionamento de infraestrutura com Terraform** (Cloud Build, Cloud Run, APIs, IAM, etc).
 - **Autenticação segura** entre serviços usando Identity Token do Google.
 - **Configuração de conexões Airflow** via YAML para fácil integração.
 
@@ -26,6 +27,7 @@ Este projeto automatiza a extração, transformação e carga (ETL) de dados fin
    - Carrega os dados em BigQuery (ou outro destino).
 3. **Selenium remoto** é autenticado via Identity Token (dinâmico no Cloud Run, variável local para testes).
 4. **Deploy automático**: Push no GitHub aciona o Cloud Build, que faz build, push e deploy no Cloud Run.
+5. **Infraestrutura gerenciada via Terraform**: Cloud Build triggers, Cloud Run, APIs, IAM, BigQuery, etc.
 
 ---
 
@@ -49,6 +51,48 @@ Este projeto automatiza a extração, transformação e carga (ETL) de dados fin
 5. **(Opcional) Rode o Airflow localmente**
    ```bash
    astro dev start
+   ```
+
+---
+
+## 🧱 Provisionamento de Infraestrutura com Terraform
+
+> ℹ️ **Informação:**  
+> A infraestrutura provisionada via Terraform **ainda está em processo de estruturação**. Algumas configurações, integrações ou recursos podem sofrer ajustes e melhorias nas próximas versões do projeto.
+
+1. **Configure as variáveis em `terraform/variables.tf`** (exemplo):
+   ```
+   project_id         = "seu-projeto-gcp"
+   region             = "us-central1"
+   github_owner       = "seu-usuario-ou-org"
+   github_repo        = "financial_data_scrapper"
+   github_full_repo   = "https://github.com/seu-usuario-ou-org/financial_data_scrapper"
+   github_app_installation_id = "SEU_ID"
+   secret             = "projects/SEU_PROJECT/secrets/SEU_SECRET/versions/latest"
+   trigger_name       = "test-trigger"
+   selenium           = "https://<seu-endpoint-selenium>/wd/hub"
+   service_account    = "projects/-/serviceAccounts/NUMERO_DO_PROJETO@cloudbuild.gserviceaccount.com"
+   ```
+
+2. **Inicialize o Terraform**
+   ```bash
+   cd terraform
+   terraform init
+   ```
+
+3. **Aplique a infraestrutura**
+   ```bash
+   terraform apply
+   ```
+   Isso irá:
+   - Ativar as APIs necessárias no GCP.
+   - Criar conexões e repositórios do Cloud Build.
+   - Criar triggers automatizados para build/deploy.
+   - Configurar permissões e service accounts.
+
+4. **Dispare builds manualmente (opcional)**
+   ```bash
+   gcloud builds triggers run test-trigger --branch=main
    ```
 
 ---
@@ -84,6 +128,7 @@ Este projeto automatiza a extração, transformação e carga (ETL) de dados fin
 - [Documentação Selenium Grid](https://www.selenium.dev/documentation/grid/)
 - [Documentação Airflow](https://airflow.apache.org/docs/)
 - [Documentação Cloud Build](https://cloud.google.com/build/docs)
+- [Documentação Terraform Google Modules](https://github.com/terraform-google-modules/terraform-google-project-factory)
 - [Artigo sobre scrapper com cloud_run](https://www.roelpeters.be/how-to-deploy-a-scraping-script-and-selenium-in-google-cloud-run/)
 
 ---
@@ -108,6 +153,11 @@ financial_data_scrapper/
 ├── requirements.txt
 ├── dockerfile.api
 ├── selenium-trigger.cloudbuild.yaml
+├── terraform/
+│   ├── main.tf
+│   ├── cloud_build/
+│   │   └── main.tf
+│   └── ...
 └── .env
 ```
 
