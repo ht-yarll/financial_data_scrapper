@@ -7,9 +7,9 @@ steps:
       - |
           set -e
           apt-get update && apt-get install -y --no-install-recommends \
-          build-essential \ 
-          curl
-          
+            build-essential \ 
+            curl
+
           pip install --upgrade pip
           pip install -r requirements.txt
 
