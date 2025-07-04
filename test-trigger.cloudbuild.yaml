@@ -1,6 +1,3 @@
-substitutions:
-  _SELENIUM_URL: "https://selenium-chrome-standalone-212994923775.us-central1.run.app/wd/hub"
-
 steps:
   - id: running tests
     name: python:3.12-slim

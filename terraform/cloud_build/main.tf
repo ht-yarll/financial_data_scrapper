@@ -7,6 +7,10 @@ resource "google_cloudbuild_trigger" "gen2_trigger" {
 
   filename = "test-trigger.cloudbuild.yaml"
 
+  substitutions = {
+    _SELENIUM_URL = var.selenium
+    }
+
   repository_event_config {
     repository = var.repository_id
 

@@ -18,3 +18,7 @@ variable "repository_id" {
 variable "trigger_name" {
   type    = string
 }
+
+variable "selenium" {
+  type = string
+}
