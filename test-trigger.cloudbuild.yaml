@@ -17,7 +17,6 @@ steps:
           pip install -e .
 
           export SELENIUM_REMOTE_URL=https://selenium-chrome-standalone-212994923775.us-central1.run.app/wd/hub
-          curl -fs $SELENIUM_REMOTE_URL/status || exit 1
 
           pytest tests -q
 
