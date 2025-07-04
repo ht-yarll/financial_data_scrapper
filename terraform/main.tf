@@ -60,6 +60,7 @@ module "cloud_build" {
   service_account = "projects/${var.project_id}/serviceAccounts/${var.service_account}"
   
   repository_id = google_cloudbuildv2_repository.default.id
+  selenium = var.selenium
 
   trigger_name = var.trigger_test
 }

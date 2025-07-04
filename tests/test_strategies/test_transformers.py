@@ -1,9 +1,9 @@
 import pytest
 
 from app.strategies.transformers.transform_df_strategy import TransformDF
-from app.strategies.extractors.bloomberg_commodity_strategy import BloombergCommodityExtract
-from app.strategies.extractors.usd_cny_currency_strategy import USDCurrencyExtract
-from app.strategies.extractors.chinese_cash_services_strategy import ChineseCashServicesExtract
+from app.strategies.extractors.bloomberg_commodity_strategy import BloombergCommodityExtractS
+from app.strategies.extractors.usd_cny_currency_strategy import USDCurrencyExtractS
+from app.strategies.extractors.chinese_cash_services_strategy import ChineseCashServicesExtractS
 
 import polars as pl
 import pandas as pd
@@ -40,7 +40,7 @@ def test_transformation(transformer, config):
 expected_columns = ['date', 'last', 'open', 'high', 'low', 'variation']
 
 def test_bloomberg_transformation(transformer, config):
-    extractor = BloombergCommodityExtract(config)
+    extractor = BloombergCommodityExtractS(config)
     df = extractor.extract()
     df_transformed = transformer.transform(df)
     print(df_transformed.head())
@@ -54,7 +54,7 @@ def test_bloomberg_transformation(transformer, config):
     assert pd.api.types.is_float_dtype(df_transformed['variation'])
 
 def test_usd_currency_transformation(transformer, config):
-    extractor = USDCurrencyExtract(config)
+    extractor = USDCurrencyExtractS(config)
     df = extractor.extract()
     df_transformed = transformer.transform(df)
     print(df_transformed.head())
@@ -68,7 +68,7 @@ def test_usd_currency_transformation(transformer, config):
     assert pd.api.types.is_float_dtype(df_transformed['variation'])
 
 def test_chinese_cash_services_transformation(transformer, config):
-    extractor = ChineseCashServicesExtract(config)
+    extractor = ChineseCashServicesExtractS(config)
     df = extractor.extract()
     df_transformed = transformer.transform(df)
     print(df_transformed)

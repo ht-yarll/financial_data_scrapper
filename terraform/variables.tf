@@ -51,3 +51,8 @@ variable "trigger_test" {
   default = "test-trigger"
   type    = string
 }
+
+variable "selenium" {
+  default = "https://selenium-chrome-standalone-212994923775.us-central1.run.app/wd/hub"
+  type = string
+}

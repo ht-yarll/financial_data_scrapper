@@ -1,8 +1,8 @@
 import pytest
 from app.utils.config import load_config
-from app.strategies.extractors.bloomberg_commodity_strategy import BloombergCommodityExtract
-from app.strategies.extractors.chinese_cash_services_strategy import ChineseCashServicesExtract
-from app.strategies.extractors.usd_cny_currency_strategy import USDCurrencyExtract
+from app.strategies.extractors.bloomberg_commodity_strategy import BloombergCommodityExtractS
+from app.strategies.extractors.chinese_cash_services_strategy import ChineseCashServicesExtractS
+from app.strategies.extractors.usd_cny_currency_strategy import USDCurrencyExtractS
 
 import polars as pl
 
@@ -13,7 +13,7 @@ expected = {
 }
 
 def test_bloomberg_returns_valid_dataframe():
-    bloom = BloombergCommodityExtract(config)
+    bloom = BloombergCommodityExtractS(config)
     df = bloom.extract()
     df = df.head()
     print(df)
@@ -27,7 +27,7 @@ def test_bloomberg_returns_valid_dataframe():
 
 
 def test_usd_currency_returns_valid_dataframe():
-    usd = USDCurrencyExtract(config)
+    usd = USDCurrencyExtractS(config)
     df = usd.extract()
     df = df.head()
     print(df)
@@ -41,7 +41,7 @@ def test_usd_currency_returns_valid_dataframe():
 
 
 def test_chinese_cash_services_returns_valid_dataframe():
-    chin = ChineseCashServicesExtract(config)
+    chin = ChineseCashServicesExtractS(config)
     df = chin.extract()
     df = df.head()
     print(df)
