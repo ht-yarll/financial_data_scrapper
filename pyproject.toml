@@ -3,7 +3,7 @@ name = "financial-data-scrapper"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
     "fastapi>=0.115.12",
     "google-cloud-bigquery>=3.33.0",
