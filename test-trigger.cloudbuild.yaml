@@ -32,7 +32,6 @@ steps:
 
           # Exporta variáveis usadas nos testes
           export SELENIUM_URL=$_SELENIUM_URL
-          export SELENIUM_ID_TOKEN=$ID_TOKEN
 
           # Executa os testes
           pytest tests -q
