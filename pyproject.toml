@@ -24,4 +24,6 @@ dependencies = [
 
 
 [tool.setuptools.packages.find]
-where = ["financial_data_scrapper"]
+include = ["financial_data_scrapper*", "app*"]
+
+

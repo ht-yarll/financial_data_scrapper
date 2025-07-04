@@ -6,8 +6,13 @@ steps:
       - -c
       - |
           set -e
+          apt-get update && apt-get install -y --no-install-recommends build-essential
           pip install --upgrade pip
           pip install -r requirements.txt
+          AIRFLOW_VERSION=2.9.0
+          PYTHON_VERSION=3.13
+          pip install "apache-airflow==${AIRFLOW_VERSION}" \
+            --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-${PYTHON_VERSION}.txt"
           pip install -e .
           pytest tests -q
 
