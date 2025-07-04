@@ -23,5 +23,5 @@ dependencies = [
 ]
 
 
-[tool.setuptools]
-packages = ["dags", "plugins"]
+[tool.setuptools.packages.find]
+where = ["financial_data_scrapper"]
